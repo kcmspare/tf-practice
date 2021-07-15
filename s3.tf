@@ -6,7 +6,7 @@ resource "aws_s3_bucket" "gl_registry" {
 }
 
 resource "aws_s3_bucket" "gl_artifacts" {
-  bucket = "gl-artifacts"
+  bucket = "gl-artifacts-kcm"
   acl    = "private"
 }
 
