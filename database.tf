@@ -7,7 +7,7 @@ resource "aws_rds_cluster" "DB_gitlab" {
   availability_zones      = ["us-east-1a", "us-east-1b"]
   database_name           = "gitlab_db"
   master_username         = "Should_not_be_stored_here"
-  master_password         = "hunter2"
+  master_password         = "temp_password_for_testing_dont_really_put_stuff_here"
   backup_retention_period = 7
   preferred_backup_window = "03:00-07:00"
   storage_encrypted =   true
