@@ -20,3 +20,20 @@ resource "aws_kms_key" "key_gitlab_db" {
   deletion_window_in_days = 7
 }
 
+resource "aws_elasticache_replication_group" "gitlab_redis_primary" {
+  replication_group_description = "gitlab redis primary"
+  replication_group_id = "gitlab_redis_primary-cluster"
+  at_rest_encryption_enabled = true
+  kms_key_id = aws_kms_key.key_gitlab_db.arn
+  node_type = "cache.t2.small"
+  #security_group_ids = <to set up>
+  #cluster-enabled = to look into
+  parameter_group_name = "gitlab.redis.primary"
+  automatic_failover_enabled = true
+
+  cluster_mode {
+    replicas_per_node_group = 1
+    num_node_groups = 2
+  }
+}
+
