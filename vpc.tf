@@ -11,11 +11,7 @@ module "vpc" {
    public_subnets = ["10.0.0.0/24", "10.0.2.0/24"]
    
    enable_nat_gateway = true
-   enable_vpn_gateway = true
-}
-
-resource "aws_internet_gateway" "internet_gateway" {
-  vpc_id = module.vpc.vpc_id
+   enable_vpn_gateway = false
 }
 
 resource "aws_db_subnet_group" "gitlab_private_subnets" {
