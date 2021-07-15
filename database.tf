@@ -22,7 +22,7 @@ resource "aws_kms_key" "key_gitlab_db" {
 
 resource "aws_elasticache_replication_group" "gitlab_redis_primary" {
   replication_group_description = "gitlab redis primary"
-  replication_group_id = "gitlab_redis_primary-cluster"
+  replication_group_id = "gitlab-redis-primary-cluster"
   at_rest_encryption_enabled = true
   kms_key_id = aws_kms_key.key_gitlab_db.arn
   node_type = "cache.t2.small"
