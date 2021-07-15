@@ -13,6 +13,7 @@ resource "aws_rds_cluster" "DB_gitlab" {
   storage_encrypted =   true
   kms_key_id = aws_kms_key.key_gitlab_db.arn
   #vpc_security_group_ids = <to set up>
+  db_subnet_group_name = aws_db_subnet_group.gitlab_private_subnets.id
 }
 
 resource "aws_kms_key" "key_gitlab_db" {

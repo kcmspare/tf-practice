@@ -17,3 +17,10 @@ module "vpc" {
 resource "aws_internet_gateway" "internet_gateway" {
   vpc_id = module.vpc.vpc_id
 }
+
+resource "aws_db_subnet_group" "gitlab_private_subnets" {
+  name       = "gitlab_subnet_private"
+  subnet_ids = module.vpc.private_subnets
+}
+
+
