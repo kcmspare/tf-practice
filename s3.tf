@@ -26,6 +26,6 @@ resource "aws_s3_bucket" "gl_uploads" {
 }
 
 resource "aws_s3_bucket" "gl_mr_diffs" {
-  bucket = "gl-mr_diffs"
+  bucket = "gl-mr-diffs"
   acl    = "private"
 }
