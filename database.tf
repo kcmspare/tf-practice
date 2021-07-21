@@ -34,4 +34,5 @@ resource "aws_elasticache_replication_group" "gitlab_redis" {
   at_rest_encryption_enabled    = true
   kms_key_id                    = aws_kms_key.key_gitlab_db.arn
   security_group_ids            = [aws_security_group.gitlab-redis.id]
+  subnet_group_name             = aws_elasticache_subnet_group.gitlab_EC_subnet_group.name
 }

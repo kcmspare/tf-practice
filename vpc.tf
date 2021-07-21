@@ -18,3 +18,8 @@ resource "aws_db_subnet_group" "gitlab_private_subnets" {
   name       = "gitlab_subnet_private"
   subnet_ids = module.vpc.private_subnets
 }
+
+resource "aws_elasticache_subnet_group" "gitlab_EC_subnet_group" {
+  name       = "gitlab-ec-subnet-group"
+  subnet_ids = module.vpc.private_subnets
+}
