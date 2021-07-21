@@ -28,8 +28,10 @@ resource "aws_elasticache_replication_group" "gitlab_redis" {
   availability_zones            = module.vpc.azs
   node_type                     = "cache.t2.small"
   number_cache_clusters         = 2
-  replication_group_id = "gitlab-redis-replicationgroup"
+  replication_group_id          = "gitlab-redis-replicationgroup"
   replication_group_description = "redis replication group for gitlab"
-  transit_encryption_enabled = true
-  #parameter_group_name = 
+  transit_encryption_enabled    = true
+  at_rest_encryption_enabled    = true
+  kms_key_id                    = aws_kms_key.key_gitlab_db.arn
+  security_group_ids            = aws_security_group.gitlab-redis
 }
