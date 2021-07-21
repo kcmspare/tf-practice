@@ -18,5 +18,3 @@ resource "aws_db_subnet_group" "gitlab_private_subnets" {
   name       = "gitlab_subnet_private"
   subnet_ids = module.vpc.private_subnets
 }
-
-
