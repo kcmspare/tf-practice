@@ -12,7 +12,7 @@ resource "aws_rds_cluster" "DB_gitlab" {
   preferred_backup_window = "03:00-07:00"
   storage_encrypted =   true
   kms_key_id = aws_kms_key.key_gitlab_db.arn
-  #vpc_security_group_ids = <to set up>
+  vpc_security_group_ids = aws_security_group.gitlab-rds
   db_subnet_group_name = aws_db_subnet_group.gitlab_private_subnets.id
   skip_final_snapshot = "true"
   apply_immediately = true
@@ -22,7 +22,6 @@ resource "aws_kms_key" "key_gitlab_db" {
   description             = "KMS key for Gitlab primary DB"
   deletion_window_in_days = 7
 }
-
 
 resource "aws_elasticache_replication_group" "gitlab_redis" {
   automatic_failover_enabled    = true
