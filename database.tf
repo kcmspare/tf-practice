@@ -14,6 +14,8 @@ resource "aws_rds_cluster" "DB_gitlab" {
   kms_key_id = aws_kms_key.key_gitlab_db.arn
   #vpc_security_group_ids = <to set up>
   db_subnet_group_name = aws_db_subnet_group.gitlab_private_subnets.id
+  skip_final_snapshot = "true"
+  apply_immediately = true
 }
 
 resource "aws_kms_key" "key_gitlab_db" {
@@ -21,20 +23,14 @@ resource "aws_kms_key" "key_gitlab_db" {
   deletion_window_in_days = 7
 }
 
-resource "aws_elasticache_replication_group" "gitlab_redis_primary" {
-  replication_group_description = "gitlab redis primary"
-  replication_group_id = "gitlab-redis-primary-cluster"
-  at_rest_encryption_enabled = true
-  kms_key_id = aws_kms_key.key_gitlab_db.arn
-  node_type = "cache.t2.small"
-  #security_group_ids = <to set up>
-  #cluster-enabled = to look into
-  parameter_group_name = "gitlab.redis.primary"
-  automatic_failover_enabled = true
 
-  cluster_mode {
-    replicas_per_node_group = 1
-    num_node_groups = 2
-  }
+resource "aws_elasticache_replication_group" "gitlab_redis" {
+  automatic_failover_enabled    = true
+  availability_zones            = module.vpc.azs
+  node_type                     = "cache.t2.small"
+  number_cache_clusters         = 2
+  replication_group_id = "gitlab-redis-replicationgroup"
+  replication_group_description = "redis replication group for gitlab"
+  transit_encryption_enabled = true
+  #parameter_group_name = 
 }
-
