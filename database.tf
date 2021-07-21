@@ -12,7 +12,7 @@ resource "aws_rds_cluster" "DB_gitlab" {
   preferred_backup_window = "03:00-07:00"
   storage_encrypted =   true
   kms_key_id = aws_kms_key.key_gitlab_db.arn
-  vpc_security_group_ids = aws_security_group.gitlab-rds
+  vpc_security_group_ids = [aws_security_group.gitlab-rds.id]
   db_subnet_group_name = aws_db_subnet_group.gitlab_private_subnets.id
   skip_final_snapshot = "true"
   apply_immediately = true
@@ -33,5 +33,5 @@ resource "aws_elasticache_replication_group" "gitlab_redis" {
   transit_encryption_enabled    = true
   at_rest_encryption_enabled    = true
   kms_key_id                    = aws_kms_key.key_gitlab_db.arn
-  security_group_ids            = aws_security_group.gitlab-redis
+  security_group_ids            = [aws_security_group.gitlab-redis.id]
 }
