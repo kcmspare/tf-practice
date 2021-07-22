@@ -1,13 +1,11 @@
 # EKS
 
 resource "aws_eks_cluster" "EKS_cluster" {
-  name      = "Gitlab EKS Cluster"
-  role_arn  = x
+  name      = "Gitlab-EKS-Cluster"
+  role_arn  = aws_iam_role.Gitlab_EKS_cluster_role.arn
 
   vpc_config {
-    subnet_ids = [
-      module.vpc.private_subnets
-    ]
+    subnet_ids = module.vpc.private_subnets
   }
 
   depends_on = [
