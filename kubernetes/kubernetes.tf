@@ -45,3 +45,26 @@ resource "kubernetes_deployment" "k8s_gitlab_deployment" {
   }
   depends_on = [kubernetes_namespace.gitlab_kubernetes_namespace]
 }
+
+resource "kubernetes_service" "k8s_gitlab_service" {
+  metadata {
+    name      = "gitlab-k8s-service"
+    namespace = kubernetes_namespace.gitlab_kubernetes_namespace.metadata.0.name
+  }
+
+  spec {
+    selector = {
+      use = "Kanchimoe-Gitlab_on_AWS-K8S"
+    }
+
+    port {
+      port        = 80
+      target_port = 80
+      protocol    = "TCP"
+    }
+
+    type = "NodePort"
+  }
+
+  depends_on = [kubernetes_deployment.k8s_gitlab_deployment]
+}
