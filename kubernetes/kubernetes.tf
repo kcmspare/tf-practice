@@ -9,10 +9,10 @@ resource "kubernetes_namespace" "gitlab_kubernetes_namespace" {
   }
 }
 
-resource "kubernetes_deployment" "k8s_gitlab_deployment" {
+resource "kubernetes_deployment" "k8s_gitlab_deployment_appserver" {
   metadata {
     labels = {
-      use       = "Kanchimoe-Gitlab_on_AWS-K8S"
+      use       = "Kanchimoe-Gitlab_on_AWS-K8S_appserver"
       terraform = "true-github"
     }
     name      = "gitlab-k8s-deployment"
@@ -24,7 +24,7 @@ resource "kubernetes_deployment" "k8s_gitlab_deployment" {
 
     selector {
       match_labels = {
-        use = "Kanchimoe-Gitlab_on_AWS-K8S"
+        use = "Kanchimoe-Gitlab_on_AWS-K8S_appserver"
       }
     }
 
@@ -46,15 +46,15 @@ resource "kubernetes_deployment" "k8s_gitlab_deployment" {
   depends_on = [kubernetes_namespace.gitlab_kubernetes_namespace]
 }
 
-resource "kubernetes_service" "k8s_gitlab_service_main" {
+resource "kubernetes_service" "k8s_gitlab_service_main_appserver" {
   metadata {
-    name      = "gitlab-k8s-service-main"
+    name      = "gitlab-k8s-service-main-appserver"
     namespace = kubernetes_namespace.gitlab_kubernetes_namespace.metadata.0.name
   }
 
   spec {
     selector = {
-      use = "Kanchimoe-Gitlab_on_AWS-K8S"
+      use = "Kanchimoe-Gitlab_on_AWS-K8S_appserver"
     }
 
     port {
