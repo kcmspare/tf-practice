@@ -46,9 +46,9 @@ resource "kubernetes_deployment" "k8s_gitlab_deployment" {
   depends_on = [kubernetes_namespace.gitlab_kubernetes_namespace]
 }
 
-resource "kubernetes_service" "k8s_gitlab_service" {
+resource "kubernetes_service" "k8s_gitlab_service_main" {
   metadata {
-    name      = "gitlab-k8s-service"
+    name      = "gitlab-k8s-service-main"
     namespace = kubernetes_namespace.gitlab_kubernetes_namespace.metadata.0.name
   }
 
