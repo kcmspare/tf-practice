@@ -1,7 +1,7 @@
 resource "kubernetes_deployment" "k8s_gitlab_deployment_gitaly" {
   metadata {
     labels = {
-      use       = "Kanchimoe-Gitlab_on_AWS-K8S-gitaly"
+      use       = "kanchimoe-gitlab-on-aws-k8s-gitaly"
       terraform = "true-github"
     }
     name      = "gitlab-k8s-deployment-gitaly"
@@ -13,21 +13,21 @@ resource "kubernetes_deployment" "k8s_gitlab_deployment_gitaly" {
 
     selector {
       match_labels = {
-        use = "Kanchimoe-Gitlab_on_AWS-K8S-gitaly"
+        use = "kanchimoe-gitlab-on-aws-k8s-gitaly"
       }
     }
     
     template {
       metadata {
         labels = {
-          use = ""
+          use = "kanchimoe-gitlab-on-aws-k8s-gitaly"
         }
       }
 
       spec {
         container {
           image = "gitlab/gitlab-ce:14.1.0-ce.0"
-          name  = "Gitlab CE 14.1.0 docker image"
+          name  = "gitlab-ce-14-1-0-dockerimage"
         }
       }
     }
@@ -43,7 +43,7 @@ resource "kubernetes_service" "k8s_gitlab_service_gitaly" {
 
   spec {
     selector = {
-      use = "Kanchimoe-Gitlab_on_AWS-K8S-gitaly"
+      use = "kanchimoe-gitlab-on-aws-k8s-gitaly"
     }
 
     port {
