@@ -66,5 +66,5 @@ resource "kubernetes_service" "k8s_gitlab_service_main_appserver" {
     type = "NodePort"
   }
 
-  depends_on = [kubernetes_deployment.k8s_gitlab_deployment]
+  depends_on = [kubernetes_deployment.k8s_gitlab_deployment_appserver]
 }
