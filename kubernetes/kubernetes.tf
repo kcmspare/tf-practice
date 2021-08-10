@@ -15,7 +15,7 @@ resource "kubernetes_deployment" "k8s_gitlab_deployment_appserver" {
       use       = "kanchimoe-gitlab_on_aws-k8s_appserver"
       terraform = "true-github"
     }
-    name      = "gitlab-k8s-deployment"
+    name      = "gitlab-k8s-deployment-appserver"
     namespace = kubernetes_namespace.gitlab_kubernetes_namespace.metadata.0.name
   }
 
@@ -39,6 +39,13 @@ resource "kubernetes_deployment" "k8s_gitlab_deployment_appserver" {
         container {
           image = "gitlab/gitlab-ce:14.1.0-ce.0"
           name  = "gitlab-ce-14-1-0-dockerimage"
+
+          resources {
+            requests = {
+              cpu    = "1"
+              memory = "2Gi"
+            }
+          }
         }
       }
     }

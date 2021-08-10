@@ -9,7 +9,7 @@ data "aws_iam_policy_document" "gitlab_k8s_alb_assumerole" {
       "sts:AssumeRole"
     ]
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = ["elasticloadbalancing.amazonaws.com"]
     }
   }
@@ -21,7 +21,7 @@ resource "aws_iam_role_policy_attachment" "gitlab_k8s_alb_policyattachment" {
 }
 
 resource "aws_iam_policy" "gitlab_k8s_alb_policy" {
-  name = "gitlab_k8s_alb_policy"
+  name   = "gitlab_k8s_alb_policy"
   policy = data.aws_iam_policy_document.gitlab_k8s_alb_policydocument.json
 }
 

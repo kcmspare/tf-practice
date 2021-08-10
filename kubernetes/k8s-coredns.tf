@@ -17,7 +17,7 @@ resource "kubernetes_deployment" "k8s_gitlab_coredns" {
         "k8s-app"                     = "kube-dns"
       }
     }
-    
+
     template {
       metadata {
 
@@ -29,7 +29,7 @@ resource "kubernetes_deployment" "k8s_gitlab_coredns" {
 
       spec {
         container {
-          args  = [
+          args = [
             "-conf",
             "/etc/coredns/Corefile"
           ]
@@ -80,32 +80,32 @@ resource "kubernetes_deployment" "k8s_gitlab_coredns" {
             }
           }
 
-        security_context {
-          allow_privilege_escalation = false
-          privileged                 = false
-          read_only_root_filesystem  = true
-          run_as_non_root            = false
+          security_context {
+            allow_privilege_escalation = false
+            privileged                 = false
+            read_only_root_filesystem  = true
+            run_as_non_root            = false
 
-          capabilities {
-            add = [
-              "NET_BIND_SERVICE",
-            ]
-            drop = [
-              "all"
-            ]
+            capabilities {
+              add = [
+                "NET_BIND_SERVICE",
+              ]
+              drop = [
+                "all"
+              ]
+            }
           }
-        }
 
-        volume_mount {
-          mount_path        = "/etc/coredns"
-          name              = "config-volume"
-          read_only         = true
-        }
-        volume_mount {
-          mount_path        = "/tmp"
-          name              = "tmp"
-          read_only         = false
-        }
+          volume_mount {
+            mount_path = "/etc/coredns"
+            name       = "config-volume"
+            read_only  = true
+          }
+          volume_mount {
+            mount_path = "/tmp"
+            name       = "tmp"
+            read_only  = false
+          }
 
         }
         automount_service_account_token = true
@@ -120,18 +120,18 @@ resource "kubernetes_deployment" "k8s_gitlab_coredns" {
                 match_expressions {
                   key      = "beta.kubernetes.io/os"
                   operator = "In"
-                  values   = [
+                  values = [
                     "linux",
                   ]
                 }
 
                 match_expressions {
-                  key       = "beta.kubernetes.io/arch"
-                   operator = "In"
-                   values   = [
-                     "amd64",
-                     "arm64",
-                   ]
+                  key      = "beta.kubernetes.io/arch"
+                  operator = "In"
+                  values = [
+                    "amd64",
+                    "arm64",
+                  ]
                 }
               }
             }
