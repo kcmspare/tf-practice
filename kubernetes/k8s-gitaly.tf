@@ -68,7 +68,8 @@ resource "kubernetes_service" "k8s_gitlab_service_gitaly" {
 
 resource "kubernetes_config_map" "k8s_gitlab_gitaly_configmap" {
   metadata {
-    name = "gitlab-gitaly-configmap"
+    name      = "gitlab-gitaly-configmap"
+    namespace = kubernetes_namespace.gitlab_kubernetes_namespace.metadata.0.name
   }
 
   data = {
