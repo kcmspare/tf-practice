@@ -29,9 +29,9 @@
 ##! On AWS EC2 instances, we also attempt to fetch the public hostname/IP
 ##! address from AWS. For more details, see:
 ##! https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html
-external_url 'GENERATED_EXTERNAL_URL'
+external_url "${external_url}"
 
-gitlab_rails['internal_api_url'] = ${internal_api_url}
+gitlab_rails['internal_api_url'] = "${internal_api_url}"
 
 ## Roles for multi-instance GitLab
 ##! The default is to have no roles enabled, which results in GitLab running as an all-in-one instance.
@@ -613,7 +613,7 @@ gitlab_rails['internal_api_url'] = ${internal_api_url}
 # })
 
 ### Gitaly settings
-gitlab_rails['gitaly_token'] = ${gitaly_client_token}
+gitlab_rails['gitaly_token'] = "${gitaly_client_token}"
 
 ### For storing GitLab application uploads, eg. LFS objects, build artifacts
 ###! Docs: https://docs.gitlab.com/ee/development/shared_files.html
@@ -674,7 +674,7 @@ gitlab_rails['gitaly_token'] = ${gitaly_client_token}
 # gitlab_rails['initial_license_file'] = '/etc/gitlab/company.gitlab-license'
 
 #### Enable or disable automatic database migrations
-gitlab_rails['auto_migrate'] = ${automigrate_disable}
+gitlab_rails['auto_migrate'] = "${automigrate_disable}"
 
 #### This is advanced feature used by large gitlab deployments where loading
 #### whole RAILS env takes a lot of time.
@@ -846,7 +846,7 @@ gitlab_rails['auto_migrate'] = ${automigrate_disable}
 ##! Docs: https://gitlab.com/gitlab-org/gitlab/-/blob/master/workhorse/README.md
 ################################################################################
 
-gitlab_workhorse['enable'] = ${workhorse_disable}
+gitlab_workhorse['enable'] = "${workhorse_disable}"
 # gitlab_workhorse['ha'] = false
 # gitlab_workhorse['alt_document_root'] = nil
 
@@ -950,7 +950,7 @@ gitlab_workhorse['enable'] = ${workhorse_disable}
 ##! Docs: https://docs.gitlab.com/omnibus/settings/puma.html
 ################################################################################
 
-puma['enable'] = ${puma_disable}
+puma['enable'] = "${puma_disable}"
 # puma['ha'] = false
 # puma['worker_timeout'] = 60
 # puma['worker_processes'] = 2
@@ -986,7 +986,7 @@ puma['enable'] = ${puma_disable}
 ##! can be used to ensure certain queues are able to handle additional workload.
 ##! https://docs.gitlab.com/ee/administration/operations/extra_sidekiq_processes.html
 
-sidekiq['enable'] = ${sidekiq_disable}
+sidekiq['enable'] = "${sidekiq_disable}"
 # sidekiq['log_directory'] = "/var/log/gitlab/sidekiq"
 # sidekiq['log_format'] = "json"
 # sidekiq['shutdown_timeout'] = 4
@@ -1053,7 +1053,7 @@ sidekiq['enable'] = ${sidekiq_disable}
 ###! By default, reconfigure reloads postgresql if it is running. If you
 ###! change any of these settings, be sure to run `gitlab-ctl restart postgresql`
 ###! after reconfigure in order for the changes to take effect.
-postgresql['enable'] = ${postgress_disable}
+postgresql['enable'] = "${postgress_disable}"
 # postgresql['listen_address'] = nil
 # postgresql['port'] = 5432
 
@@ -1199,7 +1199,7 @@ postgresql['enable'] = ${postgress_disable}
 ##! Docs: https://docs.gitlab.com/omnibus/settings/redis.html
 ################################################################################
 
-redis['enable'] = ${redis_disable}
+redis['enable'] = "${redis_disable}"
 # redis['ha'] = false
 # redis['hz'] = 10
 # redis['dir'] = "/var/opt/gitlab/redis"
@@ -1307,7 +1307,7 @@ redis['enable'] = ${redis_disable}
 ##! Docs: https://docs.gitlab.com/omnibus/settings/nginx.html
 ################################################################################
 
-nginx['enable'] = ${nginx_disable}
+nginx['enable'] = "${nginx_disable}"
 # nginx['client_max_body_size'] = '250m'
 # nginx['redirect_http_to_https'] = false
 # nginx['redirect_http_to_https_port'] = 80
@@ -1813,7 +1813,7 @@ nginx['enable'] = ${nginx_disable}
 ###! Docs: https://docs.gitlab.com/ee/administration/high_availability
 # monitoring_role['enable'] = true
 
-prometheus['enable'] = ${prometheus_disable}
+prometheus['enable'] = "${prometheus_disable}"
 # prometheus['monitor_kubernetes'] = true
 # prometheus['username'] = 'gitlab-prometheus'
 # prometheus['group'] = 'gitlab-prometheus'
@@ -1891,7 +1891,7 @@ prometheus['enable'] = ${prometheus_disable}
 ## Prometheus Alertmanager
 ################################################################################
 
-alertmanager['enable'] = ${alertmanager_disable}
+alertmanager['enable'] = "${alertmanager_disable}"
 # alertmanager['home'] = '/var/opt/gitlab/alertmanager'
 # alertmanager['log_directory'] = '/var/log/gitlab/alertmanager'
 # alertmanager['admin_email'] = 'admin@example.com'
@@ -1982,7 +1982,7 @@ alertmanager['enable'] = ${alertmanager_disable}
 ################################################################################
 
 
-gitlab_exporter['enable'] = ${gitlabexporter_disable}
+gitlab_exporter['enable'] = "${gitlabexporter_disable}"
 # gitlab_exporter['log_directory'] = "/var/log/gitlab/gitlab-exporter"
 # gitlab_exporter['home'] = "/var/opt/gitlab/gitlab-exporter"
 
@@ -2003,7 +2003,7 @@ gitlab_exporter['enable'] = ${gitlabexporter_disable}
 ##! Docs: https://docs.gitlab.com/ee/administration/monitoring/prometheus/#prometheus-as-a-grafana-data-source
 ################################################################################
 
-grafana['enable'] = ${grafana_disable}
+grafana['enable'] = "${grafana_disable}"
 # grafana['log_directory'] = '/var/log/gitlab/grafana'
 # grafana['home'] = '/var/opt/gitlab/grafana'
 # grafana['admin_password'] = 'admin'
@@ -2111,9 +2111,9 @@ grafana['enable'] = ${grafana_disable}
 # gitaly['internal_socket_dir'] = "/var/opt/gitlab/gitaly"
 # gitaly['socket_path'] = "/var/opt/gitlab/gitaly/gitaly.socket"
 #gitaly['listen_addr'] = "localhost:8075"
-gitaly['tls_listen_addr'] = ${tls_listen_address}
-gitaly['certificate_path'] = ${tls_cert_path}
-gitaly['key_path'] = ${tls_key_path}
+gitaly['tls_listen_addr'] = "${tls_listen_address}"
+gitaly['certificate_path'] = "${tls_cert_path}"
+gitaly['key_path'] = "${tls_key_path}"
 # gitaly['prometheus_listen_addr'] = "localhost:9236"
 # gitaly['logging_level'] = "warn"
 # gitaly['logging_format'] = "json"
@@ -2121,7 +2121,7 @@ gitaly['key_path'] = ${tls_key_path}
 # gitaly['logging_ruby_sentry_dsn'] = "https://<key>:<secret>@sentry.io/<project>"
 # gitaly['logging_sentry_environment'] = "production"
 # gitaly['prometheus_grpc_latency_buckets'] = "[0.001, 0.005, 0.025, 0.1, 0.5, 1.0, 10.0, 30.0, 60.0, 300.0, 1500.0]"
-gitaly['auth_token'] = ${gitaly_server_token}
+gitaly['auth_token'] = "${gitaly_server_token}"
 # gitaly['auth_transitioning'] = false # When true, auth is logged to Prometheus but NOT enforced
 # gitaly['graceful_restart_timeout'] = '1m' # Grace time for a gitaly process to finish ongoing requests
 # gitaly['git_catfile_cache_size'] = 100 # Number of 'git cat-file' processes kept around for re-use
@@ -2131,7 +2131,7 @@ gitaly['auth_token'] = ${gitaly_server_token}
 # gitaly['ruby_graceful_restart_timeout'] = '10m' # Grace time for a gitaly-ruby process to finish ongoing requests
 # gitaly['ruby_restart_delay'] = '5m' # Period of sustained high RSS that needs to be observed before restarting gitaly-ruby
 # gitaly['ruby_rugged_git_config_search_path'] = "/opt/gitlab/embedded/etc" # Location of system-wide gitconfig file
-gitaly['ruby_num_workers'] = ${ruby_workers_count}
+gitaly['ruby_num_workers'] = "${ruby_workers_count}"
 # gitaly['concurrency'] = [
 #   {
 #     'rpc' => "/gitaly.SmartHTTPService/PostReceivePack",
@@ -2142,10 +2142,10 @@ gitaly['ruby_num_workers'] = ${ruby_workers_count}
 #   }
 # ]
 #
-gitaly['daily_maintenance_start_hour'] = ${maintenance_start_hour}
-gitaly['daily_maintenance_start_minute'] = ${maintenance_start_min}
-gitaly['daily_maintenance_duration'] = ${maintenance_duration}
-# gitaly['daily_maintenance_storages'] = ["default"]
+gitaly['daily_maintenance_start_hour'] = "${maintenance_start_hour}"
+gitaly['daily_maintenance_start_minute'] = "${maintenance_start_min}"
+gitaly['daily_maintenance_duration'] = "${maintenance_duration}"
+gitaly['daily_maintenance_storages'] = ["default"]
 # gitaly['daily_maintenance_disabled'] = false
 # gitaly['cgroups_count'] = 10
 # gitaly['cgroups_mountpoint'] = '/sys/fs/cgroup'

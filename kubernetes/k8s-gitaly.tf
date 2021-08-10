@@ -36,11 +36,24 @@ resource "kubernetes_deployment" "k8s_gitlab_deployment_gitaly" {
               memory = "2Gi"
             }
           }
+          
+          volume_mount {
+            mount_path = "/etc/gitlab"
+            name       = "gitlab-k8s-gitaly-configmap"
+            read_only  = true
+            }
+        }
+        volume {
+          name = "gitlab-k8s-gitaly-configmap"
+          config_map {
+            name = kubernetes_config_map.k8s_gitlab_gitaly_configmap.metadata.0.name
+          }
         }
       }
     }
   }
-  depends_on = [kubernetes_namespace.gitlab_kubernetes_namespace]
+  depends_on = [kubernetes_namespace.gitlab_kubernetes_namespace,
+                kubernetes_config_map.k8s_gitlab_gitaly_configmap]
 }
 
 resource "kubernetes_service" "k8s_gitlab_service_gitaly" {
@@ -73,7 +86,7 @@ resource "kubernetes_config_map" "k8s_gitlab_gitaly_configmap" {
   }
 
   data = {
-    "gitlab.rb" = data.template_file.gitlab_rb_template.template
+    "gitlab.rb" =  data.template_file.gitlab_rb_template.rendered
   }
 }
 
@@ -102,6 +115,7 @@ data "template_file" "gitlab_rb_template" {
     maintenance_duration   = "30m"
 
     internal_api_url = "https://gitlab.example.com"
+    external_url     = "https://gitlab.example.com"
   }
 }
 
