@@ -20,9 +20,6 @@ resource "kubernetes_deployment" "k8s_gitlab_coredns" {
     
     template {
       metadata {
-        annotations = {
-          "eks.amazonaws.com/compute-type" = "fargate"
-        }
 
         labels = {
           "eks.amazonaws.com/component" = "coredns"
@@ -111,7 +108,7 @@ resource "kubernetes_deployment" "k8s_gitlab_coredns" {
         }
 
         }
-        automount_service_account_token = false
+        automount_service_account_token = true
         dns_policy                      = "Default"
         enable_service_links            = false
         priority_class_name             = "system-cluster-critical"
