@@ -40,7 +40,7 @@ resource "kubernetes_deployment" "k8s_gitlab_deployment_gitaly" {
           volume_mount {
             mount_path = "/etc/gitlab"
             name       = "gitlab-k8s-gitaly-configmap"
-            read_only  = false
+            read_only  = true
             }
         }
         volume {
