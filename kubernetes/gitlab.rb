@@ -713,7 +713,7 @@ gitlab_rails['auto_migrate'] = "${automigrate_disable}"
 ###! Docs: https://docs.gitlab.com/omnibus/settings/redis.html
 
 #### Redis TCP connection
-# gitlab_rails['redis_host'] = "127.0.0.1"
+gitlab_rails['redis_host'] = "${redis_host}"
 # gitlab_rails['redis_port'] = 6379
 # gitlab_rails['redis_ssl'] = false
 # gitlab_rails['redis_password'] = nil

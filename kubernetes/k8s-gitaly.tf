@@ -40,7 +40,7 @@ resource "kubernetes_deployment" "k8s_gitlab_deployment_gitaly" {
           volume_mount {
             mount_path = "/etc/gitlab"
             name       = "gitlab-k8s-gitaly-configmap"
-            read_only  = true
+            read_only  = false
             }
         }
         volume {
@@ -86,7 +86,15 @@ resource "kubernetes_config_map" "k8s_gitlab_gitaly_configmap" {
   }
 
   data = {
-    "gitlab.rb" =  data.template_file.gitlab_rb_template.rendered
+    "gitlab.rb"                =  data.template_file.gitlab_rb_template.rendered
+    "gitlab-secrets.json"      = file("src/gitlab-secrets.json")
+    "initial_root_password"    = file("src/initial_root_password")
+    "ssh_host_ecdsa_key"       = file("src/ssh_host_ecdsa_key")
+    "ssh_host_ecdsa_key.pub"   = file("src/ssh_host_ecdsa_key.pub")
+    "ssh_host_ed25519_key"     = file("src/ssh_host_ed25519_key")
+    "ssh_host_ed25519_key.pub" = file("src/ssh_host_ed25519_key.pub")
+    "ssh_host_rsa_key"         = file("src/ssh_host_rsa_key")
+    "ssh_host_rsa_key.pub"     = file("src/ssh_host_rsa_key.pub")
   }
 }
 
@@ -113,6 +121,7 @@ data "template_file" "gitlab_rb_template" {
     maintenance_start_hour = "4"
     maintenance_start_min  = "0"
     maintenance_duration   = "30m"
+    redis_host             = data.terraform_remote_state.main_tf.outputs.gitlab_db_redis_endpoint
 
     internal_api_url = "https://gitlab.example.com"
     external_url     = "https://gitlab.example.com"
