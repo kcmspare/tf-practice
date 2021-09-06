@@ -39,3 +39,19 @@ resource "aws_eks_fargate_profile" "Gitlab_EKS_fargate_profile" {
     namespace = "gitlab"
   }
 }
+
+resource "aws_eks_fargate_profile" "Gitlab_coredns_fargateprofile" {
+  cluster_name            = aws_eks_cluster.EKS_cluster.id
+  fargate_profile_name    = "Gitlab_CoreDNS_Fargate_Profile"
+  pod_execution_role_arn  = aws_iam_role.Gitlab_fargate_profile.arn
+  subnet_ids              = module.vpc.private_subnets
+
+  selector {
+    namespace = "kube-system"
+
+    labels = {
+      "k8s-app"                     = "kube-dns"
+      "eks.amazonaws.com/component" = "coredns"
+    }
+  }
+}
