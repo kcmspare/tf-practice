@@ -3,7 +3,7 @@
 resource "aws_rds_cluster" "DB_gitlab" {
   cluster_identifier      = "aurora-cluster-gitlab"
   engine                  = "aurora-postgresql"
-  engine_mode = "serverless"
+  engine_mode             = "serverless"
   availability_zones      = ["us-east-1a", "us-east-1b"]
   database_name           = "gitlab_db"
   master_username         = "Should_not_be_stored_here"
