@@ -683,14 +683,14 @@ gitlab_rails['auto_migrate'] = "${automigrate_disable}"
 ### GitLab database settings
 ###! Docs: https://docs.gitlab.com/omnibus/settings/database.html
 ###! **Only needed if you use an external database.**
-# gitlab_rails['db_adapter'] = "postgresql"
-# gitlab_rails['db_encoding'] = "unicode"
+gitlab_rails['db_adapter'] = "${rails_db_adapter}"
+gitlab_rails['db_encoding'] = "${rails_db_encoding}"
 # gitlab_rails['db_collation'] = nil
 # gitlab_rails['db_database'] = "gitlabhq_production"
 # gitlab_rails['db_username'] = "gitlab"
-# gitlab_rails['db_password'] = nil
-# gitlab_rails['db_host'] = nil
-# gitlab_rails['db_port'] = 5432
+gitlab_rails['db_password'] = "${rails_db_password}"
+gitlab_rails['db_host'] = "${rails_db_host}"
+gitlab_rails['db_port'] = "${rails_db_port}"
 # gitlab_rails['db_socket'] = nil
 # gitlab_rails['db_sslmode'] = nil
 # gitlab_rails['db_sslcompression'] = 0

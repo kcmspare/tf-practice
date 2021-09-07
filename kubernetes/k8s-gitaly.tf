@@ -86,7 +86,7 @@ resource "kubernetes_config_map" "k8s_gitlab_gitaly_configmap" {
   }
 
   data = {
-    "gitlab.rb"                =  data.template_file.gitlab_rb_template.rendered
+    "gitlab.rb"                = data.template_file.gitlab_rb_template.rendered
     "gitlab-secrets.json"      = file("src/gitlab-secrets.json")
     "initial_root_password"    = file("src/initial_root_password")
     "ssh_host_ecdsa_key"       = file("src/ssh_host_ecdsa_key")
@@ -123,6 +123,11 @@ data "template_file" "gitlab_rb_template" {
     maintenance_duration   = "30m"
     redis_host             = data.terraform_remote_state.main_tf.outputs.gitlab_db_redis_endpoint
     redis_port             = data.terraform_remote_state.main_tf.outputs.gitlab_db_redis_port
+    rails_db_adapter       = "postgresql"
+    rails_db_encoding      = "unicode"
+    rails_db_host          = data.terraform_remote_state.main_tf.outputs.gitlab_db_redis_endpoint
+    rails_db_port          = data.terraform_remote_state.main_tf.outputs.gitlab_db_redis_port
+    rails_db_password      = "temp_password_for_testing_dont_really_put_stuff_here"
 
     internal_api_url = "https://gitlab.example.com"
     external_url     = "https://gitlab.example.com"
