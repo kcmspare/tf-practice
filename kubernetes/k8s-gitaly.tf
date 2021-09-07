@@ -36,24 +36,31 @@ resource "kubernetes_deployment" "k8s_gitlab_deployment_gitaly" {
               memory = "2Gi"
             }
           }
-          
+
           volume_mount {
             mount_path = "/etc/gitlab"
             name       = "gitlab-k8s-gitaly-configmap"
             read_only  = false
-            }
+          }
         }
         volume {
           name = "gitlab-k8s-gitaly-configmap"
           config_map {
             name = kubernetes_config_map.k8s_gitlab_gitaly_configmap.metadata.0.name
+            dynamic "items" {
+              for_each = kubernetes_config_map.k8s_gitlab_gitaly_configmap.data
+              content {
+                key  = items.key
+                path = items.key
+              }
+            }
           }
         }
       }
     }
   }
   depends_on = [kubernetes_namespace.gitlab_kubernetes_namespace,
-                kubernetes_config_map.k8s_gitlab_gitaly_configmap]
+  kubernetes_config_map.k8s_gitlab_gitaly_configmap]
 }
 
 resource "kubernetes_service" "k8s_gitlab_service_gitaly" {
