@@ -122,6 +122,7 @@ data "template_file" "gitlab_rb_template" {
     maintenance_start_min  = "0"
     maintenance_duration   = "30m"
     redis_host             = data.terraform_remote_state.main_tf.outputs.gitlab_db_redis_endpoint
+    redis_port             = data.terraform_remote_state.main_tf.outputs.gitlab_db_redis_port
 
     internal_api_url = "https://gitlab.example.com"
     external_url     = "https://gitlab.example.com"

@@ -714,7 +714,7 @@ gitlab_rails['auto_migrate'] = "${automigrate_disable}"
 
 #### Redis TCP connection
 gitlab_rails['redis_host'] = "${redis_host}"
-# gitlab_rails['redis_port'] = 6379
+gitlab_rails['redis_port'] = "${redis_port}"
 # gitlab_rails['redis_ssl'] = false
 # gitlab_rails['redis_password'] = nil
 # gitlab_rails['redis_database'] = 0
