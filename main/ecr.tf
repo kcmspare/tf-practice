@@ -41,12 +41,12 @@ data "template_file" "gitlab_rb_template" {
     maintenance_start_hour = "4"
     maintenance_start_min  = "0"
     maintenance_duration   = "30m"
-    redis_host             = data.terraform_remote_state.main_tf.outputs.gitlab_db_redis_endpoint
-    redis_port             = data.terraform_remote_state.main_tf.outputs.gitlab_db_redis_port
+    redis_host             = aws_rds_cluster.DB_gitlab.endpoint
+    redis_port             = aws_rds_cluster.DB_gitlab.port
     rails_db_adapter       = "postgresql"
     rails_db_encoding      = "unicode"
-    rails_db_host          = data.terraform_remote_state.main_tf.outputs.gitlab_db_redis_endpoint
-    rails_db_port          = data.terraform_remote_state.main_tf.outputs.gitlab_db_redis_port
+    rails_db_host          = aws_rds_cluster.DB_gitlab.endpoint
+    rails_db_port          = aws_rds_cluster.DB_gitlab.port
     rails_db_password      = "temp_password_for_testing_dont_really_put_stuff_here"
 
     internal_api_url = "https://gitlab.example.com"
