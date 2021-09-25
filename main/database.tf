@@ -36,3 +36,7 @@ resource "aws_elasticache_replication_group" "gitlab_redis" {
   security_group_ids            = [aws_security_group.gitlab-redis.id]
   subnet_group_name             = aws_elasticache_subnet_group.gitlab_EC_subnet_group.name
 }
+
+resource "aws_efs_file_system" "gitlab_efs" {
+  creation_token = "kanchimoe-gitlab_efs"
+}
