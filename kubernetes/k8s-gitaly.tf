@@ -47,13 +47,6 @@ resource "kubernetes_deployment" "k8s_gitlab_deployment_gitaly" {
           name = "gitlab-k8s-gitaly-configmap"
           config_map {
             name = kubernetes_config_map.k8s_gitlab_gitaly_configmap.metadata.0.name
-            dynamic "items" {
-              for_each = kubernetes_config_map.k8s_gitlab_gitaly_configmap.data
-              content {
-                key  = items.key
-                path = items.key
-              }
-            }
           }
         }
       }
@@ -87,6 +80,7 @@ resource "kubernetes_service" "k8s_gitlab_service_gitaly" {
 }
 
 resource "kubernetes_config_map" "k8s_gitlab_gitaly_configmap" {
+  # will be removed soon
   metadata {
     name      = "gitlab-gitaly-configmap"
     namespace = kubernetes_namespace.gitlab_kubernetes_namespace.metadata.0.name
@@ -105,54 +99,3 @@ resource "kubernetes_config_map" "k8s_gitlab_gitaly_configmap" {
   }
 }
 
-data "template_file" "gitlab_rb_template" {
-  template = file("gitlab.rb")
-  vars = {
-    gitaly_client_token    = random_password.gitaly_client_auth_token.result
-    gitaly_server_token    = random_password.gitaly_server_auth_token.result
-    postgress_disable      = false
-    redis_disable          = false
-    nginx_disable          = false
-    puma_disable           = false
-    sidekiq_disable        = false
-    workhorse_disable      = false
-    grafana_disable        = false
-    gitlabexporter_disable = false
-    alertmanager_disable   = false
-    prometheus_disable     = false
-    automigrate_disable    = false
-    tls_listen_address     = "0.0.0.0:9999"
-    tls_cert_path          = "example.com"
-    tls_key_path           = "example.com"
-    ruby_workers_count     = "4"
-    maintenance_start_hour = "4"
-    maintenance_start_min  = "0"
-    maintenance_duration   = "30m"
-    redis_host             = data.terraform_remote_state.main_tf.outputs.gitlab_db_redis_endpoint
-    redis_port             = data.terraform_remote_state.main_tf.outputs.gitlab_db_redis_port
-    rails_db_adapter       = "postgresql"
-    rails_db_encoding      = "unicode"
-    rails_db_host          = data.terraform_remote_state.main_tf.outputs.gitlab_db_redis_endpoint
-    rails_db_port          = data.terraform_remote_state.main_tf.outputs.gitlab_db_redis_port
-    rails_db_password      = "temp_password_for_testing_dont_really_put_stuff_here"
-
-    internal_api_url = "https://gitlab.example.com"
-    external_url     = "https://gitlab.example.com"
-  }
-}
-
-resource "random_password" "gitaly_server_auth_token" {
-  length  = 25
-  lower   = true
-  number  = true
-  upper   = true
-  special = true
-}
-
-resource "random_password" "gitaly_client_auth_token" {
-  length  = 25
-  lower   = true
-  number  = true
-  upper   = true
-  special = true
-}
