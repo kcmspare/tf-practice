@@ -8,18 +8,38 @@ resource "aws_ecr_repository" "gitlab_ecr" {
     }
 }
 
-resource "docker_image" "gitlab-14-k8s" {
-  name = "gitlab/gitlab-ce:14.1.0-ce.0"
+resource "docker_image" "kcm-docker-image" {
+  name = "docker-name-here"
+  build {
+    path = "${path.cwd}/src"
+    dockerfile = "dockerfile"
+  }
 }
 
+resource "docker_registry_image" "kcm-docker-image" {
+  name = "kcm-gitlab-d"
 
+  build {
+    context = "/${"src"}"
+    dockerfile = "dockerfile"
 
+    auth_config {
+      host_name = aws_ecr_repository.gitlab_ecr.repository_url
+      auth = data.aws_ecr_authorization_token.gitlab-docker-authtoken.authorization_token
+      #identity_token 
+      password = data.aws_ecr_authorization_token.gitlab-docker-authtoken.password
+      #registry_token 
+      server_address = data.aws_ecr_authorization_token.gitlab-docker-authtoken.proxy_endpoint
+      user_name = data.aws_ecr_authorization_token.gitlab-docker-authtoken.user_name
+    }
+  }
+} 
 
-
-
+data "aws_ecr_authorization_token" "gitlab-docker-authtoken" {
+}
 
 data "template_file" "gitlab_rb_template" {
-  template = file("gitlab.rb")
+  template = file("src/gitlab.rb")
   vars = {
     gitaly_client_token    = random_password.gitaly_client_auth_token.result
     gitaly_server_token    = random_password.gitaly_server_auth_token.result
