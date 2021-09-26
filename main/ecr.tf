@@ -20,7 +20,7 @@ resource "docker_registry_image" "kcm-docker-image" {
   name = "kcm-gitlab-d"
 
   build {
-    context = "/${"src"}"
+    context = "/src"
     dockerfile = "dockerfile"
 
     auth_config {
